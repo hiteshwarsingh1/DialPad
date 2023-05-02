@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Notepad for Blind People</title>
+  <style>
+    textarea {
+      width: 80%;
+      height:200px;
+      text-align: center;
+      border: 1px solid black;
+    }
+    p{
+        font-size: 2em;
+    }
+    .text{
+        display: flex;
+        justify-content: center;
+		align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+
+    }
+    .keyboard{
+        position: relative;
+        display: none;
+        /* display: flex;    */
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        width: 80%;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);       
+    }
+   
+    .keyboard.active {
+			display: block;
+		}
+    .keyboard-1 {
+		background-color: rgb(253, 253, 253);
+        
+    }
+    .keyboard-2 {
+		background-color: rgb(253, 253, 253);
+        
+    }
+    .keyboard-3 {
+		background-color: rgb(253, 253, 253);
+        
+    }
+    .key-row{
+        display: flex;
+        justify-content: center;
+        flex-direction: row ;
+        align-items: center;
+    }
+
+    .key {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 15%;
+        width: 15%;
+        margin: 0.5%;
+        font-size: 2em;
+        color: #333;
+        background-color: #fff;
+        border: 1px solid #ff0000;
+        border-radius:5%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        /* cursor: pointer; */
+        /* transition: all 0.2s ease-in-out; */
+    }		
+
+    .key.highlight {
+      background-color: rgb(255, 72, 72);
+    }
+  </style>
+</head>
+<body>
+    <div  class="text">
+        <textarea id="notepad"></textarea>
+    </div>
+    <div id="keyboard" class="keyboard keyboard-1 active">
+            
+        <div class="key-row">
+
+            <div class="key" data-row="1" data-col="1" onclick="handlePress('Q')">Q</div>
+            <div class="key" data-row="1" data-col="2" onclick="handlePress('W')">W</div>
+            <div class="key" data-row="1" data-col="3" onclick="handlePress('E')">E</div>
+            <div class="key" data-row="1" data-col="4" onclick="handlePress('R')">R</div>
+            <div class="key" data-row="1" data-col="5" onclick="handlePress('T')">T</div>
+            <div class="key" data-row="1" data-col="6" onclick="handlePress('Y')">Y</div>
+            <div class="key" data-row="1" data-col="7" onclick="handlePress('U')">U</div>
+            <div class="key" data-row="1" data-col="8" onclick="handlePress('I')">I</div>
+            <div class="key" data-row="1" data-col="9" onclick="handlePress('O')">O</div>
+            <div class="key" data-row="1" data-col="10" onclick="handlePress('P')">P</div>
+        </div>
+        
+        <div class="key-row">
+
+            <div class="key" data-row="2" data-col="1" onclick="handlePress('A')">A</div>
+            <div class="key" data-row="2" data-col="2" onclick="handlePress('S')">S</div>
+            <div class="key" data-row="2" data-col="3" onclick="handlePress('D')">D</div>
+            <div class="key" data-row="2" data-col="4" onclick="handlePress('F')">F</div>
+            <div class="key" data-row="2" data-col="5" onclick="handlePress('G')">G</div>
+            <div class="key" data-row="2" data-col="6" onclick="handlePress('H')">H</div>
+            <div class="key" data-row="2" data-col="7" onclick="handlePress('J')">J</div>
+            <div class="key" data-row="2" data-col="8" onclick="handlePress('K')">K</div>
+            <div class="key" data-row="2" data-col="9" onclick="handlePress('L')">L</div>
+        </div>
+        
+        <div class="key-row">
+
+            <div class="key" data-row="3" data-col="1" onclick="toggleContainersCase()">Case</div>
+            <div class="key" data-row="3" data-col="2" onclick="handlePress('Z')">Z</div>
+            <div class="key" data-row="3" data-col="3" onclick="handlePress('X')">X</div>
+            <div class="key" data-row="3" data-col="4" onclick="handlePress('C')">C</div>
+            <div class="key" data-row="3" data-col="5" onclick="handlePress('V')">V</div>
+            <div class="key" data-row="3" data-col="6" onclick="handlePress('B')">B</div>
+            <div class="key" data-row="3" data-col="7" onclick="handlePress('N')">N</div>
+            <div class="key" data-row="3" data-col="8" onclick="handlePress('M')">M</div>
+            <div class="key" data-row="3" data-col="9" onclick="handleBackspace()">←</div> 
+        </div>
+        
+        <div class="key-row">
+            <div class="key" data-row="4" data-col="1" onclick="toggleContainersNum('Num')">123</div>
+            <div class="key" data-row="4" data-col="2" onclick="handlePress(',')">,</div>
+            <div class="key" data-row="4" data-col="3" onclick="handleSpace()">Space</div>
+            <div class="key" data-row="4" data-col="4" onclick="handlePress('.')">.</div>
+            <div class="key" data-row="4" data-col="5" onclick="handlePress('&#8629')">&#8629</div>
+        </div>
+
+    
+  </div>
+<!-- ********************************************************************************************* -->
+  <div id="keyboard" class="keyboard keyboard-2">
+    
+<div class="key-row">
+
+    <div class="key" data-row="1" data-col="1" onclick="handlePress('q')">q</div>
+    <div class="key" data-row="1" data-col="2" onclick="handlePress('w')">w</div>
+    <div class="key" data-row="1" data-col="3" onclick="handlePress('e')">e</div>
+    <div class="key" data-row="1" data-col="4" onclick="handlePress('r')">r</div>
+    <div class="key" data-row="1" data-col="5" onclick="handlePress('t')">t</div>
+    <div class="key" data-row="1" data-col="6" onclick="handlePress('y')">y</div>
+    <div class="key" data-row="1" data-col="7" onclick="handlePress('u')">u</div>
+    <div class="key" data-row="1" data-col="8" onclick="handlePress('i')">i</div>
+    <div class="key" data-row="1" data-col="9" onclick="handlePress('o')">o</div>
+    <div class="key" data-row="1" data-col="10" onclick="handlePress('p')">p</div>
+</div>
+<div class="key-row">
+
+    <div class="key" data-row="2" data-col="1" onclick="handlePress('a')">a</div>
+    <div class="key" data-row="2" data-col="2" onclick="handlePress('s')">s</div>
+    <div class="key" data-row="2" data-col="3" onclick="handlePress('d')">d</div>
+    <div class="key" data-row="2" data-col="4" onclick="handlePress('f')">f</div>
+    <div class="key" data-row="2" data-col="5" onclick="handlePress('g')">g</div>
+    <div class="key" data-row="2" data-col="6" onclick="handlePress('h')">h</div>
+    <div class="key" data-row="2" data-col="7" onclick="handlePress('j')">j</div>
+    <div class="key" data-row="2" data-col="8" onclick="handlePress('k')">k</div>
+    <div class="key" data-row="2" data-col="9" onclick="handlePress('l')">l</div>
+</div>
+
+<div class="key-row">
+
+    <div class="key" data-row="3" data-col="1" onclick="toggleContainersCase()">Case</div>
+    <div class="key" data-row="3" data-col="2" onclick="handlePress('z')">z</div>
+    <div class="key" data-row="3" data-col="3" onclick="handlePress('x')">x</div>
+    <div class="key" data-row="3" data-col="4" onclick="handlePress('c')">c</div>
+    <div class="key" data-row="3" data-col="5" onclick="handlePress('v')">v</div>
+    <div class="key" data-row="3" data-col="6" onclick="handlePress('b')">b</div>
+    <div class="key" data-row="3" data-col="7" onclick="handlePress('n')">n</div>
+    <div class="key" data-row="3" data-col="8" onclick="handlePress('m')">m</div>
+    <div class="key" data-row="3" data-col="9" onclick="handleBackspace()">←</div> 
+</div>
+<div class="key-row">
+    <div class="key" data-row="4" data-col="1" onclick="toggleContainersNum('Num')">123</div>
+    <div class="key" data-row="4" data-col="2" onclick="handlePress(',')">,</div>
+    <div class="key" data-row="4" data-col="3" onclick="handleSpace()">Space</div>
+    <div class="key" data-row="4" data-col="4" onclick="handlePress('.')">.</div>
+    <div class="key" data-row="4" data-col="5" onclick="handlePress('&#8629')">&#8629</div>
+</div>
+
+</div>
+<!-- ************************************************************************************** -->
+<div id="keyboard" class="keyboard keyboard-3">
+    <div class="key-row">
+            <div class="key" data-row="1" data-col="1" onclick="handlePress('1')">1</div>
+            <div class="key" data-row="1" data-col="2" onclick="handlePress('2')">2</div>
+            <div class="key" data-row="1" data-col="3" onclick="handlePress('3')">3</div>
+            <div class="key" data-row="1" data-col="4" onclick="handlePress('4')">4</div>
+            <div class="key" data-row="1" data-col="5" onclick="handlePress('5')">5</div>
+            <div class="key" data-row="1" data-col="6" onclick="handlePress('6')">6</div>
+            <div class="key" data-row="1" data-col="7" onclick="handlePress('7')">7</div>
+            <div class="key" data-row="1" data-col="8" onclick="handlePress('8')">8</div>
+            <div class="key" data-row="1" data-col="9" onclick="handlePress('9')">9</div>
+            <div class="key" data-row="1" data-col="10" onclick="handlePress('0')">0</div>
+    </div>
+
+    <div class="key-row">
+
+        <div class="key" data-row="2" data-col="1" onclick="handlePress('@')">@</div>
+        <div class="key" data-row="2" data-col="2" onclick="handlePress('#')">#</div>
+        <div class="key" data-row="2" data-col="3" onclick="handlePress('$')">$</div>
+        <div class="key" data-row="2" data-col="4" onclick="handlePress('_')">_</div>
+        <div class="key" data-row="2" data-col="5" onclick="handlePress('&')">&</div>
+        <div class="key" data-row="2" data-col="6" onclick="handlePress('-')">-</div>
+        <div class="key" data-row="2" data-col="7" onclick="handlePress('+')">+</div>
+        <div class="key" data-row="2" data-col="8" onclick="handlePress(`&#41`)">&#41</div>
+        <div class="key" data-row="2" data-col="9" onclick="handlePress('&#40')">&#40</div>
+        <div class="key" data-row="2" data-col="10" onclick="handlePress('/')">/</div>
+    </div>
+    <div class="key-row">
+
+        <div class="key" data-row="3" data-col="1" onclick="toggleContainersSCI('SCI')">SCI</div>
+        <div class="key" data-row="3" data-col="2" onclick="handlePress('*')">*</div>
+        <div class="key" data-row="3" data-col="3" onclick="handlePress('&quot')">&quot</div>
+        <div class="key" data-row="3" data-col="4" onclick="handlePress('&#39')">&#39</div>
+        <div class="key" data-row="3" data-col="5" onclick="handlePress(':')">:</div>
+        <div class="key" data-row="3" data-col="6" onclick="handlePress(';')">;</div>
+        <div class="key" data-row="3" data-col="7" onclick="handlePress('!')">!</div>
+        <div class="key" data-row="3" data-col="8" onclick="handlePress('?')">?</div>
+        <div class="key" data-row="3" data-col="9" onclick="handleBackspace()">←</div> 
+    </div>
+
+    <div class="key-row">
+        <div class="key" data-row="4" data-col="1" onclick="toggleContainersABC()">ABC</div>
+        <div class="key" data-row="4" data-col="2" onclick="handlePress(',')">,</div>
+        <div class="key" data-row="4" data-col="3" onclick="handleSpace()">Space</div>
+        <div class="key" data-row="4" data-col="4" onclick="handlePress('.')">.</div>
+        <div class="key" data-row="4" data-col="5" onclick="handlePress('&#8629')">&#8629</div>
+    </div>
+
+</div>
+<!-- ************************************************************************************** -->
+<div id="keyboard" class="keyboard keyboard-4">
+    <div class="key-row">
+            <div class="key" data-row="1" data-col="1" onclick="handlePress('1')">1</div>
+            <div class="key" data-row="1" data-col="2" onclick="handlePress('2')">2</div>
+            <div class="key" data-row="1" data-col="3" onclick="handlePress('3')">3</div>
+            <div class="key" data-row="1" data-col="4" onclick="handlePress('4')">4</div>
+            <div class="key" data-row="1" data-col="5" onclick="handlePress('5')">5</div>
+            <div class="key" data-row="1" data-col="6" onclick="handlePress('6')">6</div>
+            <div class="key" data-row="1" data-col="7" onclick="handlePress('7')">7</div>
+            <div class="key" data-row="1" data-col="8" onclick="handlePress('8')">8</div>
+            <div class="key" data-row="1" data-col="9" onclick="handlePress('9')">9</div>
+            <div class="key" data-row="1" data-col="10" onclick="handlePress('0')">0</div>
+    </div>
+
+    <div class="key-row">
+        
+        <div class="key" data-row="2" data-col="1" onclick="handlePress('`')">`</div>
+        <div class="key" data-row="2" data-col="2" onclick="handlePress('&#96')">&#96</div>
+        <div class="key" data-row="2" data-col="3" onclick="handlePress('&#124$')">&#124</div>
+        <div class="key" data-row="2" data-col="4" onclick="handlePress('&#8226')">&#8226</div>
+        <div class="key" data-row="2" data-col="5" onclick="handlePress('&#8730')">&#8730</div>
+        <div class="key" data-row="2" data-col="6" onclick="handlePress('&#960')">&#960</div>
+        <div class="key" data-row="2" data-col="7" onclick="handlePress('&#247')">&#247</div>
+        <div class="key" data-row="2" data-col="8" onclick="handlePress(`&#215`)">&#215</div>
+        <div class="key" data-row="2" data-col="9" onclick="handlePress('&#167')">&#167</div>
+        <div class="key" data-row="2" data-col="10" onclick="handlePress('&#8710')">&#8710</div>
+    </div>
+    <div class="key-row">
+
+        <div class="key" data-row="3" data-col="1" onclick="toggleContainersNum('Num')">123</div>
+        <div class="key" data-row="3" data-col="2" onclick="handlePress('&#163')">&#163</div>
+        <div class="key" data-row="3" data-col="3" onclick="handlePress('&#162')">&#162</div>
+        <div class="key" data-row="3" data-col="4" onclick="handlePress('&#8364')">&#8364</div>
+        <div class="key" data-row="3" data-col="5" onclick="handlePress('&#165')">&#165</div>
+        <div class="key" data-row="3" data-col="6" onclick="handlePress('&#94')">&#94</div>
+        <div class="key" data-row="3" data-col="7" onclick="handlePress('&#176')">&#176</div>
+        <div class="key" data-row="3" data-col="8" onclick="handlePress('&#61')">&#61</div>
+        <div class="key" data-row="3" data-col="9" onclick="handleBackspace()">←</div> 
+    </div>
+
+    <div class="key-row">
+        <div class="key" data-row="4" data-col="1" onclick="toggleContainersABC()">ABC</div>
+        <div class="key" data-row="4" data-col="2" onclick="handlePress('&#123')">&#123</div>
+        <div class="key" data-row="4" data-col="3" onclick="handleSpace()">Space</div>
+        <div class="key" data-row="4" data-col="4" onclick="handlePress('&#37')">&#37</div>
+        <div class="key" data-row="4" data-col="5" onclick="handlePress('&#125')">&#125</div>
+    </div>
+
+</div>
+
+<br><br>
+<div></div>
+
+<!-- **************************************************************************************************** -->
+<script>
+    let currentRow = 1;
+    let currentCol = 1;
+    let currActive = "keyboard-1";
+    let leftEnd = 0;
+    let rightEnd = 0;
+
+    
+    const handlePress = (key) => {
+        // console.log(key);       
+        if(key === '←'){
+            handleBackspace();
+            return ;
+        }
+        else if (key==='Space'){
+            handleSpace();
+            return ;
+        }
+        else if (key==='Case'){
+            currentRow = 1;
+            currentCol = 1;
+            toggleContainersCase();
+            getActiveContainer();
+            highlightKey(1,1);
+            if(currActive === "keyboard-1"){
+                logAction(0,"Upper Case");
+            }
+            else if(currActive === "keyboard-2"){
+                logAction(0,"Lower Case")
+            }
+            
+            return ;
+        }
+        else if(key=='123'){
+            currentRow = 1;
+            currentCol = 1;
+            toggleContainersNum();
+            getActiveContainer();
+            highlightKey(1,1);
+            logAction(0,"Numeric");
+            return;
+        }
+        else if(key=='SCI'){
+            currentRow = 1;
+            currentCol = 1;
+            toggleContainersSCI();
+            getActiveContainer();
+            highlightKey(1,1);
+            logAction(0,"Scientific");
+            return;
+        }
+        else if(key=='ABC'){
+            currentRow = 1;
+            currentCol = 1;
+            toggleContainersABC();
+            getActiveContainer();
+            highlightKey(1,1);
+            logAction(0,"Upper Case");
+            return;
+        }
+        
+        const notepad = document.getElementById('notepad');
+        if (key === '↵') {
+                notepad.value += '\n';
+                logAction(0,key);
+                return ;
+            }
+        notepad.value += key;
+        logAction(0,key);
+        
+    };
+
+    const highlightKey = (row, col) => {
+       
+      const keys = document.querySelectorAll(`.${currActive} .key`);
+      keys.forEach((key) => {
+        key.classList.remove('highlight');
+      });
+      const key = document.querySelector(`.${currActive} .key[data-row="${row}"][data-col="${col}"]`);
+      key.classList.add('highlight');
+      logHighlight(key.innerHTML);
+    };
+
+    const handleBackspace = () => {
+      const notepad = document.getElementById('notepad');
+      notepad.value = notepad.value.slice(0, -1);
+      logAction('Backspace');
+    };
+
+    const handleSpace = () => {
+      const notepad = document.getElementById('notepad');
+      notepad.value += ' ';
+      logAction('Space');
+    };
+
+    function toggleContainersCase() {
+			var container1 = document.querySelector('.keyboard-1');
+			var container2 = document.querySelector('.keyboard-2');
+            
+			container1.classList.toggle('active');
+			container2.classList.toggle('active');
+            
+		}
+    function toggleContainersABC() {
+			var container1 = document.querySelector('.keyboard-1');
+			var container2 = document.querySelector('.keyboard-2');
+            
+			container1.classList.add('active');
+			container2.classList.add('active');
+			container2.classList.toggle('active');
+            
+            var container3 = document.querySelector('.keyboard-3');
+            var container4 = document.querySelector('.keyboard-4');
+        
+            container3.classList.remove('active');
+            container4.classList.remove('active');
+		}
+    function toggleContainersNum() {
+
+        var container3 = document.querySelector('.keyboard-3');
+        container3.classList.add('active');
+
+        var container1 = document.querySelector('.keyboard-1');
+        var container2 = document.querySelector('.keyboard-2');
+        var container4 = document.querySelector('.keyboard-4');
+        
+        container1.classList.remove('active');
+        container2.classList.remove('active');
+        container4.classList.remove('active');
+    }
+    function toggleContainersSCI() {
+
+        var container3 = document.querySelector('.keyboard-3');
+        container3.classList.remove('active');
+
+        var container4 = document.querySelector('.keyboard-4');
+
+        container4.classList.add('active');
+        }
+
+    function getActiveContainer() {
+        var containers = document.querySelectorAll('.keyboard');
+        console.log(containers);
+        for (var i = 0; i < containers.length; i++) {
+            if (containers[i].classList.contains('active')) {
+                console.log(containers[i].classList[1]);
+                currActive = containers[i].classList[1];
+                break;
+            }
+        }
+        return;
+    }
+
+    document.addEventListener('keydown', (event) => {
+        const key = document.querySelector(`.${currActive} .key[data-row="${currentRow}"][data-col="${currentCol}"]`);
+        const keyValue = key.innerHTML;
+
+        switch (event.keyCode) {
+        //********************
+            case 85: //right to left
+            if(currentCol===9 && (currentRow===2 || currentRow===3)){
+                currentCol =1;
+                currentRow = currentRow+1;
+                highlightKey(currentRow,currentCol);
+                break;
+            }
+            
+            if(currentCol===5 && currentRow===4){
+                console.log(rightEnd);
+                if(rightEnd===0){
+                    rightEnd=1;
+                    currentCol=5;
+                    currentRow=4;
+                    logHighlight("Right End");
+
+                }
+                else{
+                    rightEnd=0;
+                    currentCol=1;
+                    currentRow=1;                   
+                }
+                highlightKey(currentRow,currentCol);
+                break;
+            }
+            if (currentCol < 10) {
+                currentCol++;
+                highlightKey(currentRow,currentCol);
+
+                break;
+            }
+
+            if (currentCol === 10){
+                currentCol=1;
+                if (currentRow<4){
+                currentRow = currentRow+1;
+                }
+                else{
+                    currentRow=1;
+                    currentCol=1;
+                }
+
+            }
+            highlightKey(currentRow,currentCol);
+            break;
+            
+            //********************
+            case 68: //right to left
+                if(currentCol===1 && (currentRow===3 || currentRow===4)){
+                currentCol =9;
+                currentRow = currentRow-1;
+                highlightKey(currentRow,currentCol);
+
+                break;
+                }
+                if (currentCol > 1) {
+                    currentCol--;
+                    highlightKey(currentRow,currentCol);
+
+                    break;
+                }
+                if (currentCol === 1){
+                    if (currentRow>1){
+                    currentCol=10;
+                    currentRow = currentRow-1;
+                    }
+                    else{
+                        currentRow=1;
+                        currentCol=1;
+                    }
+
+                    if (currentCol===1 && currentRow===1){
+                        if (leftEnd==0){
+                            leftEnd = 1;
+                            logHighlight("Left End");
+                            console.log(leftEnd);
+                        }
+                        else{
+                            leftEnd = 0;
+                            currentRow=4;
+                            currentCol=5;
+                        }
+                        
+                    }
+                }
+                highlightKey(currentRow,currentCol);
+                break;
+            //********************
+            case 88:
+                const key = document.querySelector(`.${currActive} .key[data-row="${currentRow}"][data-col="${currentCol}"]`);
+                const keyValue = key.innerHTML;
+                console.log(keyValue);
+                handlePress(keyValue);
+                break;
+        }
+    });
+
+    const logAction = (key) => {
+
+        pronounceLetter(currentRow, currentCol);
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+
+        const message = `Pressed ${key} at ${timeString}`;
+        // console.log(message);
+        // Create a new paragraph element with the message
+        const p = document.createElement("p");
+        p.textContent = message;
+
+        // Append the paragraph element to the document body
+        document.body.appendChild(p);
+        return;
+    };
+
+    const logHighlight = (key) => {
+        pronounceLetter(currentRow, currentCol);
+        
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+
+        const message = `Hover on ${key} at ${timeString}`;
+        // console.log(message);
+        // Create a new paragraph element with the message
+        const p = document.createElement("p");
+        p.textContent = message;
+
+        // Append the paragraph element to the document body
+        document.body.appendChild(p);
+        return;
+    };
+
+    function pronounceLetter(currentRow, currentCol) {
+			// Create a new SpeechSynthesisUtterance object
+            const now = new Date();
+
+            const key = document.querySelector(`.${currActive} .key[data-row="${currentRow}"][data-col="${currentCol}"]`);
+            console.log(`.${currActive} Row ${currentRow}, Column ${currentCol}: ${key.innerHTML}`);
+            const letter = key.innerHTML;
+            
+            if (letter==='123'){
+                const utterance = new SpeechSynthesisUtterance('Numeric');
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+            else if (letter==='ABC'){
+                const utterance = new SpeechSynthesisUtterance('Capital Alphabets');
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+            else if (letter==='SCI'){
+                const utterance = new SpeechSynthesisUtterance('Scientific');
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+                
+            }
+            
+            else if(letter === '↵'){
+                const utterance = new SpeechSynthesisUtterance("New Line");
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+            else if(letter === '.'){
+                const utterance = new SpeechSynthesisUtterance("Full Stop");
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+            else if(letter === ','){
+                const utterance = new SpeechSynthesisUtterance("Comma");
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+            else{
+                const utterance = new SpeechSynthesisUtterance(letter);
+                console.log(utterance);
+                utterance.lang = "en-US";
+                utterance.pitch = 1.0;
+                
+                // Speak the letter
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+			
+			// Set the language and pitch of the speech
+			utterance.lang = "en-US";
+			utterance.pitch = 1.0;
+			
+			// Speak the letter
+			window.speechSynthesis.speak(utterance);
+		}
+    window.onload = highlightKey(currentRow, currentCol);
+    
+  </script>
+</body>
+</html>
