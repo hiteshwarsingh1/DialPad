@@ -317,10 +317,10 @@
             getActiveContainer();
             highlightKey(1,1);
             if(currActive === "keyboard-1"){
-                logAction(0,"Upper Case");
+                logAction("Upper Case");
             }
             else if(currActive === "keyboard-2"){
-                logAction(0,"Lower Case")
+                logAction("Lower Case")
             }
             
             return ;
@@ -331,7 +331,7 @@
             toggleContainersNum();
             getActiveContainer();
             highlightKey(1,1);
-            logAction(0,"Numeric");
+            logAction("Numeric");
             return;
         }
         else if(key=='SCI'){
@@ -340,7 +340,7 @@
             toggleContainersSCI();
             getActiveContainer();
             highlightKey(1,1);
-            logAction(0,"Scientific");
+            logAction("Scientific");
             return;
         }
         else if(key=='ABC'){
@@ -349,18 +349,18 @@
             toggleContainersABC();
             getActiveContainer();
             highlightKey(1,1);
-            logAction(0,"Upper Case");
+            logAction("Upper Case");
             return;
         }
         
         const notepad = document.getElementById('notepad');
         if (key === '↵') {
                 notepad.value += '\n';
-                logAction(0,key);
+                logAction(key);
                 return ;
             }
         notepad.value += key;
-        logAction(0,key);
+        logAction(key);
         
     };
 
