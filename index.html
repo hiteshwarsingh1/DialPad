@@ -75,7 +75,11 @@
         /* cursor: pointer; */
         /* transition: all 0.2s ease-in-out; */
     }		
-
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     .key.highlight {
       background-color: rgb(255, 72, 72);
     }
@@ -84,6 +88,10 @@
 <body>
     <div  class="text">
         <textarea id="notepad"></textarea>
+    </div>
+    <div class="center">
+        <button onclick="saveConsoleLog()">Save Console Log</button>
+
     </div>
     <div id="keyboard" class="keyboard keyboard-1 active">
             
@@ -434,7 +442,7 @@
 
     function getActiveContainer() {
         var containers = document.querySelectorAll('.keyboard');
-        console.log(containers);
+        // console.log(containers);
         for (var i = 0; i < containers.length; i++) {
             if (containers[i].classList.contains('active')) {
                 console.log(containers[i].classList[1]);
@@ -451,21 +459,22 @@
 
         switch (event.keyCode) {
         //********************
-            case 85: //right to left
+            case 85: //left to right
             if(currentCol===9 && (currentRow===2 || currentRow===3)){
                 currentCol =1;
                 currentRow = currentRow+1;
+                
                 highlightKey(currentRow,currentCol);
                 break;
             }
             
             if(currentCol===5 && currentRow===4){
-                console.log(rightEnd);
+                // console.log(rightEnd);
                 if(rightEnd===0){
                     rightEnd=1;
                     currentCol=5;
                     currentRow=4;
-                    logHighlight("Right End");
+                    logHighlight(" ","Right End");
 
                 }
                 else{
@@ -525,8 +534,8 @@
                     if (currentCol===1 && currentRow===1){
                         if (leftEnd==0){
                             leftEnd = 1;
-                            logHighlight("Left End");
-                            console.log(leftEnd);
+                            logHighlight(" ","Left End");
+                            // console.log(leftEnd);
                         }
                         else{
                             leftEnd = 0;
@@ -542,7 +551,7 @@
             case 88:
                 const key = document.querySelector(`.${currActive} .key[data-row="${currentRow}"][data-col="${currentCol}"]`);
                 const keyValue = key.innerHTML;
-                console.log(keyValue);
+                // console.log(keyValue);
                 handlePress(keyValue);
                 break;
         }
@@ -555,7 +564,8 @@
         const timeString = now.toLocaleTimeString();
 
         const message = `Pressed ${key} at ${timeString}`;
-        // console.log(message);
+        console.log(message);
+        // saveConsoleLog();
         // Create a new paragraph element with the message
         const p = document.createElement("p");
         p.textContent = message;
@@ -572,7 +582,7 @@
         const timeString = now.toLocaleTimeString();
 
         const message = `Hover on ${key} at ${timeString}`;
-        // console.log(message);
+        console.log(message);
         // Create a new paragraph element with the message
         const p = document.createElement("p");
         p.textContent = message;
@@ -587,12 +597,12 @@
             const now = new Date();
 
             const key = document.querySelector(`.${currActive} .key[data-row="${currentRow}"][data-col="${currentCol}"]`);
-            console.log(`.${currActive} Row ${currentRow}, Column ${currentCol}: ${key.innerHTML}`);
+            // console.log(`.${currActive} Row ${currentRow}, Column ${currentCol}: ${key.innerHTML}`);
             const letter = key.innerHTML;
             
             if (letter==='123'){
                 const utterance = new SpeechSynthesisUtterance('Numeric');
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -602,7 +612,7 @@
             }
             else if (letter==='ABC'){
                 const utterance = new SpeechSynthesisUtterance('Capital Alphabets');
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -612,7 +622,7 @@
             }
             else if (letter==='SCI'){
                 const utterance = new SpeechSynthesisUtterance('Scientific');
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -624,7 +634,7 @@
             
             else if(letter === '↵'){
                 const utterance = new SpeechSynthesisUtterance("New Line");
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -634,7 +644,7 @@
             }
             else if(letter === '.'){
                 const utterance = new SpeechSynthesisUtterance("Full Stop");
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -644,7 +654,7 @@
             }
             else if(letter === ','){
                 const utterance = new SpeechSynthesisUtterance("Comma");
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -654,7 +664,7 @@
             }
             else{
                 const utterance = new SpeechSynthesisUtterance(letter);
-                console.log(utterance);
+                // console.log(utterance);
                 utterance.lang = "en-US";
                 utterance.pitch = 1.0;
                 
@@ -670,6 +680,38 @@
 			// Speak the letter
 			window.speechSynthesis.speak(utterance);
 		}
+
+
+
+    if (localStorage.getItem("consoleLogs")) {
+        window.console.logs = localStorage.getItem("consoleLogs");
+      } else {
+        window.console.logs = "";
+      }
+
+      // Override console.log to save all logs
+      var originalConsoleLog = window.console.log;
+      window.console.log = function() {
+        // Call original console.log
+        originalConsoleLog.apply(this, arguments);
+
+        // Save log to logs variable
+        window.console.logs += Array.prototype.slice.call(arguments).join(" ") + "\n";
+        
+        // Save logs to local storage
+        localStorage.setItem("consoleLogs", window.console.logs);
+      };
+
+      function saveConsoleLog() {
+        // Create a file blob from the logs
+        var blob = new Blob([window.console.logs], {type: "text/plain;charset=utf-8"});
+
+        // Create a download link for the file
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "console-log.txt";
+        link.click();
+      }
     window.onload = highlightKey(currentRow, currentCol);
     
   </script>
